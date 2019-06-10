@@ -5775,10 +5775,10 @@ jsx-ast-utils@^2.0.1:
   dependencies:
     array-includes "^3.0.3"
 
-juanform@^2.3.2:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/juanform/-/juanform-2.3.2.tgz#b48d06929831d65dfd74ba547f528a1b258127f7"
-  integrity sha512-h1oPpy+fZLUta/qt6vuym+rpaHQDRAvZQ+M5haKYdPVpeDZ3jS0SwAIgtO763tKKEFIEbdeBbWwgSRhGPOdh7Q==
+juanform@^2.3.3:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/juanform/-/juanform-2.3.3.tgz#a501e9f46d7113f482ac5f6b9574d9ea7639577a"
+  integrity sha512-GQtQ70Dsc+Aia7NWhdz96FV26hK86qc1DQco4yzADcfJg++egAFq+8oI8J80pEHSCZV70tBTe422BNBYtoe7RA==
 
 killable@^1.0.0:
   version "1.0.1"
