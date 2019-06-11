@@ -11,3 +11,16 @@ export const createView = (component, name) => {
     component.getName = JustOf(name);
     return component
 }
+
+export const mapObject = (obj, funk) => Object.keys(obj).map((key, index) => funk(obj[key], index))
+
+export const createPusher = (props) => (where) => props.history.push(where)
+
+export const createAction = (type, dispatch) => {
+    return (data) => {
+        dispatch({
+            type,
+            payload: data,
+        })
+    }
+}

@@ -1,30 +1,102 @@
-import React from 'react';
-import { Switch, Route, Redirect } from 'react-router'
-import { BrowserRouter as Router } from 'react-router-dom'
+import React, { useReducer } from 'react';
+import { Switch, Route, Redirect, withRouter } from 'react-router'
 import * as views from './views'
-import { Either } from './utils';
+import { mapObject, createPusher, createAction } from './utils'
+import { createRoute } from './routing'
+import { User } from './middleware';
 
-const mapObject = (obj, funk) => Object.keys(obj).map((key, index) => funk(obj[key], index))
+const LOGIN = 'LOGIN'
+const SUCCESS = 'SUCCESS'
+const ERROR = 'ERROR'
+const LOGOUT = 'LOGOUT'
+const RESET = 'RESET'
 
-const paths = {
-    login: '/login',
-    admin: '/admin',
-    waiter: '/waiter'
+const initalState = {
+    login: false,
+    pending: false,
+    error: undefined,
+    user: undefined,
 }
 
-const getPath = (key) => Either(paths[key]).Or('/')
-
-const createRoute = (view, key) => {
-    return <Route key={key} exact path={getPath(view.getName())} component={view} />
+const reducer = (state, action) => {
+    switch (action.type) {
+        case LOGIN:
+            return {
+                ...state,
+                login: false,
+                pending: true,
+                error: undefined,
+            }
+        case LOGOUT:
+            return {
+                ...state,
+                login: false,
+                pending: false,
+                user: undefined,
+                error: undefined,
+            }
+        case SUCCESS:
+            return {
+                ...state,
+                login: true,
+                pending: false,
+                user: action.payload,
+                error: undefined,
+            }
+        case ERROR:
+            return {
+                ...state,
+                login: false,
+                pending: false,
+                error: action.payload,
+                user: undefined
+            }
+        case RESET:
+            return {
+                ...state,
+                error: undefined,
+            }
+        default:
+            return state;
+    }
 }
 
-const App = (props) =>
-    <Router>
-        <Switch>
-            {mapObject(views, createRoute)}
-            <Route render={() => <Redirect to="/login" />} />
-        </Switch>
-    </Router>
+const App = (props) => {
+
+    const [state, dispatch] = useReducer(reducer, initalState)
+
+    const attemptLogin = createAction(LOGIN, dispatch);
+    const loginSuccess = createAction(SUCCESS, dispatch);
+    const loginError = createAction(ERROR, dispatch);
+    const attemptLogout = createAction(LOGOUT, dispatch);
+    const resetError = createAction(RESET, dispatch);
+
+    const pushTo = createPusher(props)
+
+    const childProps = {
+        login: async (data) => {
+            attemptLogin()
+            try {
+                const user = await User.login(data);
+                loginSuccess(user);
+                pushTo(user.type.toLowerCase())
+            } catch (e) {
+                loginError(e);
+            }
+        },
+        logout: () => {
+            attemptLogout();
+            pushTo('login')
+        },
+        resetError,
+        get state() { return state; },
+    }
+
+    return <Switch>
+        {mapObject(views, createRoute(childProps, state.login))}
+        <Route render={() => <Redirect to="/login" />} />
+    </Switch>
+}
 
 
-export default App;
+export default withRouter(App);
