@@ -6,3 +6,8 @@ export const Either = (value) => {
         Or: (other) => isDefined(value) ? value : other
     }
 }
+
+export const createView = (component, name) => {
+    component.getName = JustOf(name);
+    return component
+}

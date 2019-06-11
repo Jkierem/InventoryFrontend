@@ -1,24 +1,28 @@
 import React from 'react';
-import * as views from './views'
-import { Switch, Route } from 'react-router'
+import { Switch, Route, Redirect } from 'react-router'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { Either, prop } from './utils';
+import * as views from './views'
+import { Either } from './utils';
 
 const mapObject = (obj, funk) => Object.keys(obj).map((key, index) => funk(obj[key], index))
 
 const paths = {
-    login: '/login'
+    login: '/login',
+    admin: '/admin',
+    waiter: '/waiter'
 }
 
-const getPath = (key) => Either(prop(key)(paths)).Or('')
+const getPath = (key) => Either(paths[key]).Or('/')
 
-const createRoute = (view, key) => <Route key exact path={getPath(view.getName())} component={view} />
+const createRoute = (view, key) => {
+    return <Route key={key} exact path={getPath(view.getName())} component={view} />
+}
 
 const App = (props) =>
     <Router>
         <Switch>
             {mapObject(views, createRoute)}
-            <Route render={() => <div>Fallback</div>} />
+            <Route render={() => <Redirect to="/login" />} />
         </Switch>
     </Router>
 
