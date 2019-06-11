@@ -89,7 +89,7 @@ const App = (props) => {
             pushTo('login')
         },
         resetError,
-        get state() { return state; },
+        get error() { return state.error; }, //expose error state
     }
 
     return <Switch>

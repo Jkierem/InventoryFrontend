@@ -13,7 +13,7 @@ const LoginView = (props) => {
     >
         <Input type="text" placeholder="Usuario" name="name" />
         <Input type="password" placeholder="Contraseña" name="password" />
-        <ErrorBanner visible={props.state.error}>Wrong user or password</ErrorBanner>
+        <ErrorBanner visible={props.error}>Wrong user or password</ErrorBanner>
         <Button submit>Ingresar</Button>
     </Form>
 }
