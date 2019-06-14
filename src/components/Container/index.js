@@ -7,6 +7,7 @@ const Container = styled.main`
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    background-color: ${ props => props.color || 'white'};
 `
 
 export default Container
