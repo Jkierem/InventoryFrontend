@@ -1,4 +1,7 @@
+import styled from 'styled-components'
+
 export const Colors = {
+    Panino: "#F7DDAC",
     Blue: "#3768b7",
     DarkBlue: "#2d5699",
     Ocre: "#f9f1e0",
@@ -8,7 +11,10 @@ export const Colors = {
     Red: "#bc1a1a",
     DarkRed: "#9b1717",
     LightGray: "#f5f5f5",
-    Gray: "rgba(0,0,0,.6)"
+    MiddleGray: "#e5e5e5",
+    Gray: "rgba(0,0,0,.6)",
+    White: "white",
+    Black: "#101010"
 }
 
 const Levels = {
@@ -21,3 +27,14 @@ const Levels = {
 }
 
 export const Depth = (depth) => Levels[depth]
+export const createSection = (left, right , top , bottom) => styled.section`
+    grid-row: ${left} / ${right} ;
+    grid-column: ${top} / ${bottom};
+`
+
+export const createAreaProps = (rowStart,rowEnd,colStart,colEnd) => ({
+    rowStart,
+    rowEnd,
+    colStart,
+    colEnd,
+})

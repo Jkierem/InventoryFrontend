@@ -2,17 +2,20 @@ import React, { useState } from "react";
 import styled from 'styled-components'
 import { Utils } from 'juanform'
 import { Colors } from "../../utils/Styles";
+import { pick, omit } from "../../utils";
 
 const StyledContainer = styled.div`
-
+    display: block;
     position: relative;
     font-family: Roboto;
-    margin: 16px;
+    margin: ${ props => props.fluid ? "16px 0px" : "16px"};
     box-sizing: border-box;
+    width: ${ props => props.fluid ? "100%" : "initial"};
 
     & .j-input {
-        width: ${props => props.fluid ? "100%" : "default"};
+        width: ${props => props.fluid ? "100%" : "initial"};
         border-radius: 0px;
+        box-sizing: border-box;
         color: black;
         font-size: 1rem;
         line-height: 1.75rem;
@@ -87,8 +90,11 @@ export default Utils.createInput((props) => {
 
     const getLabelClassName = () => `j-input-label ${value.trim() !== '' ? "j-input-label__off" : ""}`
 
-    return <StyledContainer>
-        <input className="j-input" {...props} onChange={handleChange} />
+    const containerProps = pick(["fluid"],props);
+    const inputProps = omit(["fluid"],props)
+
+    return <StyledContainer {...containerProps}>
+        <input className="j-input" {...inputProps} onChange={handleChange} />
         <div className="bar"></div>
         {props.label &&
             <label

@@ -9,7 +9,7 @@ const Plate = {
                 if (x.status === 200) {
                     return x.plates
                 } else {
-                    return x.message
+                    throw x.message
                 }
             })
     },
@@ -20,6 +20,15 @@ const Plate = {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ name, price, tags })
+        })
+        .then( x => x.json() )
+        .then( x => {
+            console.log(x)
+            if (x.status === 200) {
+                return x.plate;
+            } else {
+                throw x.message;
+            }
         })
     },
     updatePlate: ({ id, name, price, tags }) => {
@@ -35,7 +44,7 @@ const Plate = {
                 if (x.status === 200) {
                     return x.plate;
                 } else {
-                    return x.message;
+                    throw x.message;
                 }
             })
     },

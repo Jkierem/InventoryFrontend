@@ -31,6 +31,7 @@ const StyledComponent = Styled.Button`
     outline: none;
     background-color: ${pickIdleColor};
     color: white;
+    box-sizing: border-box;
     width: ${ props => props.fluid ? '100%' : 'initial'} ;
     box-shadow: ${Depth(2)};
     cursor: pointer;

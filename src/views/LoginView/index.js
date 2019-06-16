@@ -5,7 +5,7 @@ import { createView } from '../../utils';
 import { Input, Button } from '../../formComponents';
 import Container from '../../components/Container';
 import ErrorBanner from '../../components/ErrorBanner';
-import { Depth } from '../../utils/Styles';
+import { Depth, Colors } from '../../utils/Styles';
 
 const StyledForm = Styled.Form`
     display: flex;
@@ -14,7 +14,8 @@ const StyledForm = Styled.Form`
     align-items: center;
     max-width: 50vw;
     min-width: 280px;
-    max-height: 50vh;
+    min-height: 40vh;
+    max-height: 60vh;
     box-shadow: ${Depth(3)};
     border-radius: 25px;
     flex-direction: column;
@@ -28,7 +29,8 @@ const StyledForm = Styled.Form`
 `
 
 const Image = styled.img`
-    height: 128px;
+    min-height: 128px;
+    max-height: 128px;
     width: auto;
     margin: 16px;
 `
@@ -42,7 +44,7 @@ const LoginView = (props) => {
     }
 
     return (
-        <Container color={'#F7DDAC'}>
+        <Container color={Colors.Panino}>
             <Form
                 as={StyledForm}
                 onSubmit={onLogin}
