@@ -5,12 +5,12 @@ import { Either } from './utils';
 const paths = {
     login: {
         visible: true,
-        path: "/on",
+        path: "/login",
         rendered: true,
     },
     admin: {
         visible: false,
-        path: "/login",
+        path: "/admin",
         rendered: true,
     },
     waiter: {

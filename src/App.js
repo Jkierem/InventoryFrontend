@@ -12,7 +12,7 @@ const LOGOUT = 'LOGOUT'
 const RESET = 'RESET'
 
 const initalState = {
-    login: true,
+    login: false,
     pending: false,
     error: undefined,
     user: undefined,
