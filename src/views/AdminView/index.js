@@ -2,7 +2,7 @@ import React, { useReducer , useEffect } from 'react';
 import styled from 'styled-components'
 import { JustOf, createAction, createEffect } from '../../utils';
 import { Colors } from '../../utils/Styles';
-import { Plate } from '../../middleware';
+import { Plate , Order } from '../../middleware';
 import SideMenu from './SideMenu';
 import OrderList from './OrderList';
 import PlateList from './PlateList';
@@ -60,7 +60,8 @@ const getPlates = async (action) => {
 
 const getOrders = async (action) => {
     try{
-        action([{ name: "Order 1"}])
+        const orders = await Order.getOrders();
+        action(orders)
     }catch(e){
         console.log(e)
     }

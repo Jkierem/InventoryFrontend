@@ -18,11 +18,11 @@ export const strip = (obj) => {
         }
     }, {})
 }
-
 export const not = (funk) => (...args) => !funk(...args);
 export const belongs = (arr) => (value) => arr.includes(value)
 export const diff = (aArr, bArr) => aArr.filter(not(belongs(bArr)))
 export const omit = (keys, obj) => pick(diff(keysOf(obj), keys), obj)
+export const formatDate = (date) => date.split("T")[0].split("-").join("/");
 
 export const Either = (value) => {
     return {

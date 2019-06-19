@@ -1,33 +1,26 @@
 import React from 'react'
-import styled from 'styled-components'
 import { createAreaProps } from '../../../utils/Styles';
 import Card from '../../../components/Card';
 import GridArea from '../../../components/GridArea';
-import { Button } from '../../../formComponents';
-import List from '../../../components/List';
+import List , { Item , Action , Field } from '../../../components/List';
+import { formatDate } from '../../../utils';
 
-const ItemAction = styled(Button)`
-    margin: 0px 4px;
-    font-size: 1rem;
-    padding: 4px 8px;
-`
-
-const Field = styled.div`
-    width: 50%;
-`
-
-const createRow = ({name} , key) => {
+const createRow = ({table , createdAt , fullPrice} , key) => {
     return(
-        <List.Item
+        <Item
             key={key}
+            contentWidth={"80%"}
+            actionsWidth={"20%"}
             content={
                 <React.Fragment>
-                    <Field>{name}</Field>
+                    <Field width="30%" >Mesa {table}</Field>
+                    <Field width="35%">${fullPrice}</Field>
+                    <Field width="35%">{formatDate(createdAt)}</Field>
                 </React.Fragment>
             }
             actions={
                 <React.Fragment>
-                    <ItemAction primary>Ver</ItemAction>
+                    <Action fluid primary>Ver</Action>
                 </React.Fragment>
             }
         />
@@ -37,7 +30,9 @@ const createRow = ({name} , key) => {
 const OrderList = (props) => {
     return <GridArea {...createAreaProps(9,17,5,17)}>
         <Card title="Ordenes">
+            <List>
             {props.orders.map(createRow)}
+            </List>
         </Card>
     </GridArea>
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Colors } from '../../utils/Styles'
+import { Button } from '../../formComponents';
 
 const List = styled.div`
     height: 100%;
@@ -29,18 +30,29 @@ const Row = styled.div`
 
     & .content {
         display: flex;
-        width: 50%;
+        width: ${ props => props.contentWidth || "70%"};
     }
 
     & .actions {
         display: flex;
         justify-content: flex-end;
-        margin-left: auto;
+        margin-left: ${ props => props.margin || "auto" };
+        width: ${ props => props.actionsWidth || "auto"};
     }
 `
 
+export const Action = styled(Button)`
+    margin: 0px 4px;
+    font-size: 1rem;
+    padding: 4px 8px;
+`
+
+export const Field = styled.div`
+    width: ${ props => props.width || "50%" };
+`
+
 export const Item = (props) => {
-    return <Row>
+    return <Row {...props}>
         <div className="content">
             {props.content}
         </div>

@@ -1,4 +1,4 @@
-import { getCollectionPath, createPlatePath, updatePlatePath } from "./constants";
+import { getCollectionPath, createPlatePath, updatePlatePath, deletePlatePath } from "./constants";
 import { strip } from "../../utils";
 
 const Plate = {
@@ -23,7 +23,6 @@ const Plate = {
         })
         .then( x => x.json() )
         .then( x => {
-            console.log(x)
             if (x.status === 200) {
                 return x.plate;
             } else {
@@ -48,6 +47,17 @@ const Plate = {
                 }
             })
     },
+    deletePlate: (id) => {
+        return fetch(deletePlatePath(id))
+            .then(x => x.json())
+            .then( x => {
+                if (x.status === 200) {
+                    return x.plate;
+                } else {
+                    throw x.message;
+                }
+            })
+    }
 }
 
 export default Plate;
