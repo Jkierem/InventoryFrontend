@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Colors } from '../../utils/Styles'
 import { Button } from '../../formComponents';
+import { createButton } from 'juanform/juanform/Utils';
 
 const List = styled.div`
     height: 100%;
@@ -36,19 +37,27 @@ const Row = styled.div`
     & .actions {
         display: flex;
         justify-content: flex-end;
-        margin-left: ${ props => props.margin || "auto" };
+        margin-left: ${ props => props.margin || "auto"};
         width: ${ props => props.actionsWidth || "auto"};
     }
 `
 
-export const Action = styled(Button)`
+const ActionStyle = styled(Button)`
     margin: 0px 4px;
     font-size: 1rem;
-    padding: 4px 8px;
+    padding: ${ props => props.padding || '4px 8px'};
 `
 
+export const Action = (props) => {
+    const { onClick = () => { } } = props;
+    const handleCliick = (e) => {
+        onClick(e, props);
+    }
+    return <ActionStyle {...props} onClick={handleCliick} />
+}
+
 export const Field = styled.div`
-    width: ${ props => props.width || "50%" };
+    width: ${ props => props.width || "50%"};
 `
 
 export const Item = (props) => {

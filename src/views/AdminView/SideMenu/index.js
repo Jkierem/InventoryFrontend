@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Form } from 'juanform';
 import { Input, Button } from '../../../formComponents'
 import { Colors, createAreaProps } from "../../../utils/Styles";
 import Card from '../../../components/Card';
 import GridArea from '../../../components/GridArea';
+import ErrorBanner from '../../../components/ErrorBanner';
 
 const Logout = styled.div`
     font-family: inherit;
@@ -36,18 +37,79 @@ const Container = styled.form`
     flex-direction: column;
 `
 
+const validate = ({ name, price }) => {
+    let result = {
+        error: {},
+        valid: true
+    };
+    if (!name || name.trim().length == 0) {
+        result.error.name = true;
+        result.valid = false;
+    }
+    if (!price || price < 0) {
+        result.error.price = true;
+        result.valid = false;
+    }
+    return result;
+}
+
+const cleanData = ({ name, price }) => ({
+    name: name.trim(),
+    price: Math.round(price)
+})
+
 const SideMenu = (props) => {
+    const [error, setError] = useState({
+        name: false,
+        price: false,
+    })
+
+    const resetError = () => setError({
+        name: false,
+        price: false,
+    })
+
+    const onSubmit = (data) => {
+        const validation = validate(data)
+        if (validation.valid) {
+            props.create(cleanData(data))
+        } else {
+            setError(validation.error)
+        }
+    }
+
     return (
-    <GridArea {...createAreaProps(1,17,1,5)}>
-        <Card title="Crear">
-            <Form as={Container} onSubmit={props.create}>
-                <Input fluid id="nombre" name="name" label="Nombre"/>
-                <Input fluid id="precio" name="price" label="Precio" type="number"/>
-                <Button primary fluid submit>Crear Plato</Button>
-            </Form>
-            <Logout onClick={props.logout}>Salir</Logout>
-        </Card>
-    </GridArea>)
+        <GridArea {...createAreaProps(1, 17, 1, 5)}>
+            <Card title="Crear">
+                <Form
+                    as={Container}
+                    onSubmit={onSubmit}
+                    onChange={resetError}
+                >
+                    <Input
+                        fluid
+                        id="nombre"
+                        name="name"
+                        label="Nombre"
+                    />
+                    <ErrorBanner visible={error.name}>
+                        Name must not be empty
+                    </ErrorBanner>
+                    <Input fluid
+                        id="precio"
+                        name="price"
+                        label="Precio"
+                        type="number" min='0'
+                        step='500'
+                    />
+                    <ErrorBanner visible={error.price}>
+                        Precio debe ser positivo
+                    </ErrorBanner>
+                    <Button primary fluid submit>Crear Plato</Button>
+                </Form>
+                <Logout onClick={props.logout}>Salir</Logout>
+            </Card>
+        </GridArea>)
 }
 
 export default SideMenu

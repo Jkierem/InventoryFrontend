@@ -21,14 +21,14 @@ const Plate = {
             },
             body: JSON.stringify({ name, price, tags })
         })
-        .then( x => x.json() )
-        .then( x => {
-            if (x.status === 200) {
-                return x.plate;
-            } else {
-                throw x.message;
-            }
-        })
+            .then(x => x.json())
+            .then(x => {
+                if (x.status === 200) {
+                    return x.plate;
+                } else {
+                    throw x.message;
+                }
+            })
     },
     updatePlate: ({ id, name, price, tags }) => {
         return fetch(updatePlatePath(id), {
@@ -48,9 +48,11 @@ const Plate = {
             })
     },
     deletePlate: (id) => {
-        return fetch(deletePlatePath(id))
+        return fetch(deletePlatePath(id), {
+            method: "DELETE"
+        })
             .then(x => x.json())
-            .then( x => {
+            .then(x => {
                 if (x.status === 200) {
                     return x.plate;
                 } else {

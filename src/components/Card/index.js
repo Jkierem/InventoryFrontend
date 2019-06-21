@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Depth , Colors } from '../../utils/Styles';
+import { Depth, Colors } from '../../utils/Styles';
 import { pick } from '../../utils';
 
 const pickColor = (props) => props.color ? props.color : "white";
@@ -36,11 +36,11 @@ const ContentContainer = styled.section`
 `
 
 const Card = (props) => {
-    const cardProps = pick(["color","depth"],props);
+    const cardProps = pick(["color", "depth"], props);
     return <CardContainer {...cardProps}>
-        { props.title && <Title>{props.title}</Title>}
+        {props.title && <Title>{props.title}</Title>}
         <ContentContainer>
-            { props.children }
+            {props.children}
         </ContentContainer>
     </CardContainer>
 }
