@@ -13,13 +13,13 @@ const Plate = {
                 }
             })
     },
-    createPlate: ({ name, price, tags }) => {
+    createPlate: ({ name, price }) => {
         return fetch(createPlatePath(), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name, price, tags })
+            body: JSON.stringify({ name, price })
         })
             .then(x => x.json())
             .then(x => {
@@ -30,13 +30,13 @@ const Plate = {
                 }
             })
     },
-    updatePlate: ({ id, name, price, tags }) => {
+    updatePlate: ({ id, name, price }) => {
         return fetch(updatePlatePath(id), {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(strip({ name, price, tags }))
+            body: JSON.stringify(strip({ name, price }))
         })
             .then(x => x.json())
             .then(x => {

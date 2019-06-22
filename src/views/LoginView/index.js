@@ -5,7 +5,6 @@ import { createView } from '../../utils';
 import { Input, Button } from '../../formComponents';
 import Container from '../../components/Container';
 import ErrorBanner from '../../components/ErrorBanner';
-import Modal from '../../components/Modal';
 import { Depth, Colors } from '../../utils/Styles';
 
 const StyledForm = Styled.Form`

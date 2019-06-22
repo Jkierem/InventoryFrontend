@@ -95,6 +95,15 @@ const AdminView = (props) => {
         }
     }
 
+    const editPlate = async (data) => {
+        try {
+            await Plate.updatePlate(data);
+            fetchAndSetPlates()
+        } catch (e) {
+            //TODO: handle error
+        }
+    }
+
     useEffect(createEffect(
         fetchAndSetOrders,
         fetchAndSetPlates
@@ -103,7 +112,7 @@ const AdminView = (props) => {
     return <ViewContainer>
         <ContentContainer>
             <OrderList orders={state.orders} />
-            <PlateList onEdit={() => { }} onDelete={deletePlate} plates={state.plates} />
+            <PlateList onEdit={editPlate} onDelete={deletePlate} plates={state.plates} />
             <SideMenu logout={props.logout} create={createPlate} />
         </ContentContainer>
     </ViewContainer>

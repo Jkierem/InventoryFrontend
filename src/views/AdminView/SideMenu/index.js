@@ -6,6 +6,7 @@ import { Colors, createAreaProps } from "../../../utils/Styles";
 import Card from '../../../components/Card';
 import GridArea from '../../../components/GridArea';
 import ErrorBanner from '../../../components/ErrorBanner';
+import { validatePlateForm as validate } from '../validate'
 
 const Logout = styled.div`
     font-family: inherit;
@@ -36,22 +37,6 @@ const Container = styled.form`
     padding: 24px;
     flex-direction: column;
 `
-
-const validate = ({ name, price }) => {
-    let result = {
-        error: {},
-        valid: true
-    };
-    if (!name || name.trim().length == 0) {
-        result.error.name = true;
-        result.valid = false;
-    }
-    if (!price || price < 0) {
-        result.error.price = true;
-        result.valid = false;
-    }
-    return result;
-}
 
 const cleanData = ({ name, price }) => ({
     name: name.trim(),
@@ -93,7 +78,7 @@ const SideMenu = (props) => {
                         label="Nombre"
                     />
                     <ErrorBanner visible={error.name}>
-                        Name must not be empty
+                        Nombre es requerido
                     </ErrorBanner>
                     <Input fluid
                         id="precio"
