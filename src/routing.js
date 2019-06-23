@@ -15,7 +15,12 @@ const paths = {
     },
     waiter: {
         visible: false,
-        path: "/mesero",
+        path: "/campo",
+        rendered: true,
+    },
+    kitchen: {
+        visible: false,
+        path: "/produccion",
         rendered: true,
     }
 }

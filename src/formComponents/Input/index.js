@@ -42,7 +42,7 @@ const StyledContainer = styled.div`
         font-size: 1rem;
         user-select: none;
         cursor: text;
-        transition: all 0.2s ease-in-out;
+        transition: top 0.2s ease-in-out;
     }
 
     & .j-input:focus ~ .j-input-label {
@@ -74,9 +74,12 @@ const StyledContainer = styled.div`
     }
 `
 
-export default Utils.createInput((props) => {
+const valueExists = (value) => {
+    return value && value !== '' && (value.trim ? value.trim() !== '' : true)
+}
 
-    const [value, setValue] = useState('');
+export default Utils.createInput((props) => {
+    const [value, setValue] = useState(props.defaultValue);
 
     const handleChange = (e) => {
         setValue(e.target.value);
@@ -88,17 +91,17 @@ export default Utils.createInput((props) => {
         })
     }
 
-    const getLabelClassName = () => `j-input-label ${value.trim() !== '' ? "j-input-label__off" : ""}`
+    const getLabelClassName = () => `j-input-label ${valueExists(value) ? "j-input-label__off" : ""}`
 
-    const containerProps = pick(["fluid"],props);
-    const inputProps = omit(["fluid"],props)
+    const containerProps = pick(["fluid"], props);
+    const inputProps = omit(["fluid"], props)
 
     return <StyledContainer {...containerProps}>
-        <input className="j-input" {...inputProps} onChange={handleChange} />
+        <input className="j-input" {...inputProps} onChange={handleChange} id={props.id || props.label} />
         <div className="bar"></div>
         {props.label &&
             <label
-                htmlFor={props.id}
+                htmlFor={props.id || props.label}
                 className={getLabelClassName()}
             >
                 {props.label}

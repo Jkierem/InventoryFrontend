@@ -13,30 +13,30 @@ const Plate = {
                 }
             })
     },
-    createPlate: ({ name, price, tags }) => {
+    createPlate: ({ name, price }) => {
         return fetch(createPlatePath(), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name, price, tags })
+            body: JSON.stringify({ name, price })
         })
-        .then( x => x.json() )
-        .then( x => {
-            if (x.status === 200) {
-                return x.plate;
-            } else {
-                throw x.message;
-            }
-        })
+            .then(x => x.json())
+            .then(x => {
+                if (x.status === 200) {
+                    return x.plate;
+                } else {
+                    throw x.message;
+                }
+            })
     },
-    updatePlate: ({ id, name, price, tags }) => {
+    updatePlate: ({ id, name, price }) => {
         return fetch(updatePlatePath(id), {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(strip({ name, price, tags }))
+            body: JSON.stringify(strip({ name, price }))
         })
             .then(x => x.json())
             .then(x => {
@@ -48,9 +48,11 @@ const Plate = {
             })
     },
     deletePlate: (id) => {
-        return fetch(deletePlatePath(id))
+        return fetch(deletePlatePath(id), {
+            method: "DELETE"
+        })
             .then(x => x.json())
-            .then( x => {
+            .then(x => {
                 if (x.status === 200) {
                     return x.plate;
                 } else {

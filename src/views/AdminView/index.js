@@ -1,8 +1,8 @@
-import React, { useReducer , useEffect } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import styled from 'styled-components'
 import { JustOf, createAction, createEffect } from '../../utils';
 import { Colors } from '../../utils/Styles';
-import { Plate , Order } from '../../middleware';
+import { Plate, Order, User } from '../../middleware';
 import SideMenu from './SideMenu';
 import OrderList from './OrderList';
 import PlateList from './PlateList';
@@ -28,12 +28,12 @@ const PLATES = "PLATES"
 const ORDERS = "ORDERS"
 
 const initialState = {
-    plates:[],
-    orders:[]
+    plates: [],
+    orders: []
 }
 
-const reducer = (state,action) => {
-    switch(action.type){
+const reducer = (state, action) => {
+    switch (action.type) {
         case PLATES:
             return {
                 ...state,
@@ -50,51 +50,83 @@ const reducer = (state,action) => {
 }
 
 const getPlates = async (action) => {
-    try{
+    try {
         const plates = await Plate.getAllPlates();
         action(plates);
-    }catch(e){
+    } catch (e) {
         console.log(e)
     }
 }
 
 const getOrders = async (action) => {
-    try{
+    try {
         const orders = await Order.getOrders();
         action(orders)
-    }catch(e){
+    } catch (e) {
         console.log(e)
     }
 }
 
 const AdminView = (props) => {
 
-    const [state, dispatch] = useReducer( reducer , initialState );
-    
-    const setPlates = createAction(PLATES,dispatch);
-    const setOrders = createAction(ORDERS,dispatch)
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    const setPlates = createAction(PLATES, dispatch);
+    const setOrders = createAction(ORDERS, dispatch)
 
     const fetchAndSetPlates = () => getPlates(setPlates);
     const fetchAndSetOrders = () => getOrders(setOrders);
 
-    const createPlate = async ({ name , price }) => {
+    const createPlate = async ({ name, price }) => {
         try {
-            await Plate.createPlate({ name , price })
+            await Plate.createPlate({ name, price })
             fetchAndSetPlates()
-        }catch(e){
+        } catch (e) {
+            //TODO handle error
+        }
+    }
+
+    const deletePlate = async ({ id }) => {
+        try {
+            await Plate.deletePlate(id);
+            fetchAndSetPlates()
+        } catch (e) {
+            //TODO: handle error
+        }
+    }
+
+    const editPlate = async (data) => {
+        try {
+            await Plate.updatePlate(data);
+            fetchAndSetPlates()
+        } catch (e) {
+            //TODO: handle error
+        }
+    }
+
+    const createUser = async (data) => {
+        try {
+            await User.createUser(data);
+        } catch (e) {
+            //TODO handle error
+            console.log(e)
         }
     }
 
     useEffect(createEffect(
-        fetchAndSetOrders, 
+        fetchAndSetOrders,
         fetchAndSetPlates
     ), [])
 
     return <ViewContainer>
         <ContentContainer>
-            <OrderList orders={state.orders}/>
-            <PlateList plates={state.plates}/>
-            <SideMenu logout={props.logout} create={createPlate}/>
+            <OrderList orders={state.orders} />
+            <PlateList onEdit={editPlate} onDelete={deletePlate} plates={state.plates} />
+            <SideMenu
+                logout={props.logout}
+                createPlate={createPlate}
+                createUser={createUser}
+            />
         </ContentContainer>
     </ViewContainer>
 

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Form } from 'juanform';
 import { Input, Button } from '../../../formComponents'
 import { Colors, createAreaProps } from "../../../utils/Styles";
-import Card from '../../../components/Card';
-import GridArea from '../../../components/GridArea';
+import { Card, GridArea, ErrorBanner, Modal } from '../../../components'
+import { validatePlateForm as validate } from '../validate'
+import UserForm from './UserForm';
 
 const Logout = styled.div`
     font-family: inherit;
@@ -36,18 +37,90 @@ const Container = styled.form`
     flex-direction: column;
 `
 
+const cleanData = ({ name, price }) => ({
+    name: name.trim(),
+    price: Math.round(price)
+})
+
 const SideMenu = (props) => {
+    const [open, setOpen] = useState(false);
+    const toggleCreateUser = () => setOpen(!open);
+    const handleClickOpenCreateModal = (e) => {
+        e.preventDefault()
+        toggleCreateUser();
+    }
+
+    const [error, setError] = useState({
+        name: false,
+        price: false,
+    })
+
+    const resetError = () => setError({
+        name: false,
+        price: false,
+    })
+
+    const onSubmit = (data) => {
+        const validation = validate(data)
+        if (validation.valid) {
+            props.createPlate(cleanData(data))
+        } else {
+            setError(validation.error)
+        }
+    }
+
+    const handleUserCreate = (data) => {
+        toggleCreateUser()
+        props.createUser(data)
+    }
+
     return (
-    <GridArea {...createAreaProps(1,17,1,5)}>
-        <Card title="Crear">
-            <Form as={Container} onSubmit={props.create}>
-                <Input fluid id="nombre" name="name" label="Nombre"/>
-                <Input fluid id="precio" name="price" label="Precio" type="number"/>
-                <Button primary fluid submit>Crear Plato</Button>
-            </Form>
-            <Logout onClick={props.logout}>Salir</Logout>
-        </Card>
-    </GridArea>)
+        <React.Fragment>
+            <Modal
+                title="Crear usuario"
+                open={open}
+                onClickOutside={toggleCreateUser}
+                height={"70%"}
+                content={
+                    <UserForm
+                        onSubmit={handleUserCreate}
+                        onCancel={toggleCreateUser}
+                    />
+                }
+            />
+            <GridArea {...createAreaProps(1, 17, 1, 5)}>
+                <Card title="Crear">
+                    <Form
+                        as={Container}
+                        onSubmit={onSubmit}
+                        onChange={resetError}
+                    >
+                        <Input
+                            fluid
+                            id="nombre"
+                            name="name"
+                            label="Nombre"
+                        />
+                        <ErrorBanner visible={error.name}>
+                            Nombre es requerido
+                        </ErrorBanner>
+                        <Input fluid
+                            id="precio"
+                            name="price"
+                            label="Precio"
+                            type="number" min='0'
+                            step='500'
+                        />
+                        <ErrorBanner visible={error.price}>
+                            Precio debe ser positivo
+                        </ErrorBanner>
+                        <Button primary fluid submit>Crear Plato</Button>
+                        <Button secondary fluid onClick={handleClickOpenCreateModal}>Crear Usuario</Button>
+                    </Form>
+                    <Logout onClick={props.logout}>Salir</Logout>
+                </Card>
+            </GridArea>
+        </React.Fragment>)
 }
 
 export default SideMenu
