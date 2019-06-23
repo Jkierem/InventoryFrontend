@@ -27,6 +27,12 @@ const User = {
             },
             body: JSON.stringify({ name, password, type }),
         })
+            .then(x => x.json())
+            .then(x => {
+                if (x.status !== 200) {
+                    throw x
+                }
+            })
     }
 }
 

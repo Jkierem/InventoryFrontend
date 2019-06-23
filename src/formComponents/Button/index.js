@@ -5,6 +5,8 @@ import { Colors, Depth } from '../../utils/Styles';
 const pickIdleColor = (props) => {
     if (props.primary) {
         return Colors.Brown
+    } else if (props.secondary) {
+        return Colors.Blue
     } else if (props.negative) {
         return Colors.Red
     }
@@ -13,6 +15,8 @@ const pickIdleColor = (props) => {
 const pickFocusColor = (props) => {
     if (props.primary) {
         return Colors.DarkBrown
+    } else if (props.secondary) {
+        return Colors.DarkBlue
     } else if (props.negative) {
         return Colors.DarkRed
     }
@@ -33,11 +37,11 @@ const StyledComponent = Styled.Button`
     color: white;
     box-sizing: border-box;
     width: ${ props => props.fluid ? '100%' : 'initial'} ;
-    box-shadow: ${Depth(2)};
+    box-shadow: ${Depth(1)};
     cursor: pointer;
     &:hover {
         background: ${pickFocusColor};
-        box-shadow: ${Depth(1)}
+        box-shadow: ${Depth(0)}
     }
 `
 

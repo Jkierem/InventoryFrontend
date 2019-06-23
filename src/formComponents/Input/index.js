@@ -97,11 +97,11 @@ export default Utils.createInput((props) => {
     const inputProps = omit(["fluid"], props)
 
     return <StyledContainer {...containerProps}>
-        <input className="j-input" {...inputProps} onChange={handleChange} />
+        <input className="j-input" {...inputProps} onChange={handleChange} id={props.id || props.label} />
         <div className="bar"></div>
         {props.label &&
             <label
-                htmlFor={props.id}
+                htmlFor={props.id || props.label}
                 className={getLabelClassName()}
             >
                 {props.label}

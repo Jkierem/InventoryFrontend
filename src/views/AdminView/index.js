@@ -2,7 +2,7 @@ import React, { useReducer, useEffect } from 'react';
 import styled from 'styled-components'
 import { JustOf, createAction, createEffect } from '../../utils';
 import { Colors } from '../../utils/Styles';
-import { Plate, Order } from '../../middleware';
+import { Plate, Order, User } from '../../middleware';
 import SideMenu from './SideMenu';
 import OrderList from './OrderList';
 import PlateList from './PlateList';
@@ -104,6 +104,15 @@ const AdminView = (props) => {
         }
     }
 
+    const createUser = async (data) => {
+        try {
+            await User.createUser(data);
+        } catch (e) {
+            //TODO handle error
+            console.log(e)
+        }
+    }
+
     useEffect(createEffect(
         fetchAndSetOrders,
         fetchAndSetPlates
@@ -113,7 +122,11 @@ const AdminView = (props) => {
         <ContentContainer>
             <OrderList orders={state.orders} />
             <PlateList onEdit={editPlate} onDelete={deletePlate} plates={state.plates} />
-            <SideMenu logout={props.logout} create={createPlate} />
+            <SideMenu
+                logout={props.logout}
+                createPlate={createPlate}
+                createUser={createUser}
+            />
         </ContentContainer>
     </ViewContainer>
 

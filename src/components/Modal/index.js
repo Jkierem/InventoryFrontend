@@ -30,7 +30,7 @@ const Hidden = styled.div`
 
 const Modal = (props) => {
   const contentProps = pick(['height'], props)
-  const cardProps = pick(['title'], props);
+  const cardProps = pick(['title', 'footer'], props);
   return (props.open ?
     <Container onClick={props.onClickOutside}>
       <Content {...contentProps} onClick={(e) => { e.stopPropagation() }}>

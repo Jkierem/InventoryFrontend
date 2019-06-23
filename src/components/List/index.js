@@ -56,6 +56,9 @@ export const Action = (props) => {
 }
 
 export const Field = styled.div`
+    display: flex;
+    justify-content: ${ props => props.flex || "flex-start"};
+    align-items: center;
     width: ${ props => props.width || "50%"};
 `
 

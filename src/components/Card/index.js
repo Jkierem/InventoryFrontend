@@ -14,6 +14,8 @@ const CardContainer = styled.article`
     background-color: ${pickColor};
     box-shadow: ${pickDepth};
     border-radius: 5px;
+    display: flex;
+    flex-direction: column;
 `
 
 const Title = styled.section`
@@ -31,8 +33,21 @@ const Title = styled.section`
 `
 
 const ContentContainer = styled.section`
+    position: relative;
     height: calc(100% - (32px + 1.75rem) );
     overflow: hidden;
+`
+
+const Footer = styled.section`
+    overflow: hidden;
+    margin: 0px 8px;
+    margin-top: auto;
+    line-height: 1.75rem;
+    border-top: 1px solid ${Colors.MiddleGray};
+    height: calc(32px + 1.75rem);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 `
 
 const Card = (props) => {
@@ -42,6 +57,7 @@ const Card = (props) => {
         <ContentContainer>
             {props.children}
         </ContentContainer>
+        {props.footer && <Footer>{props.footer}</Footer>}
     </CardContainer>
 }
 
